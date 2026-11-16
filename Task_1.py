@@ -10,19 +10,27 @@ class OnlineSalesRegisterCollector:
         raise ValueError(f"Товара {item_name} нет в наличии")
 
     def remove_item(self, item_name):
-    if item_name in self._name_items:
-        self._name_items.remove(item_name)
-        self._number_items -= 1
-    else:
-        raise ValueError(f"Товара {item_name} нет в чеке")
+        if item_name in self.name_items: # Обращаемся через геттер
+            self.name_items.remove(item_name)
+            self._number_items -= 1
+        else:
+            raise ValueError(f"Товара {item_name} нет в чеке")
+
+    @property
+    def name_items(self):
+        return self._name_items 
 
     def number_items(self):
         return self._number_items
 
+    @property
+    def number_items(self):
+        return self._number_items
+
     def get_total_price(self):
-    total = 0
-    for item in self._name_items:
-        total += self._item_price[item]
+        total = 0
+        for item in self._name_items:
+            total += self._item_price[item]
         return total
 
     def get_total_with_tax(self):
@@ -37,4 +45,8 @@ class OnlineSalesRegisterCollector:
         print(f"Итого к оплате: {self.get_total_with_tax()} руб.")
 
     def get_current_date(self):
-        return datetime.datetime.now().strftime("%d.%m.%Y %H:%M")    
+        return datetime.datetime.now().strftime("%d.%m.%Y %H:%M") 
+
+    
+
+
