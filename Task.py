@@ -1,11 +1,19 @@
+import datetime
+
 class OnlineSalesRegisterCollector:
 
+    def __init__(self):
+        self.__name_items = []
+        self.__number_items = 0
+        self.__item_price = {'чипсы': 50, 'кола': 100, 'печенье': 45, 'молоко': 55, 'кефир': 70}
+        self.__tax_rate = {'чипсы': 20, 'кола': 20, 'печенье': 20, 'молоко': 10, 'кефир': 10}
+
     def add_item(self, item_name):
-    if item_name in self._item_price:
-        self._name_items.append(item_name)
-        self._number_items += 1
-    else:
-        raise ValueError(f"Товара {item_name} нет в наличии")
+        if item_name in self._item_price:
+            self._name_items.append(item_name)
+            self._number_items += 1
+        else:
+             raise ValueError(f"Товара {item_name} нет в наличии")
 
     def remove_item(self, item_name):
         if item_name in self.name_items: # Обращаемся через геттер
@@ -25,11 +33,15 @@ class OnlineSalesRegisterCollector:
     def number_items(self):
         return self._number_items
 
-    def get_total_price(self):
-        total = 0
+    def check_amount(self):
+        total = []
         for item in self._name_items:
-            total += self._item_price[item]
-        return total
+            total.append(self._item_price[item])
+            final_sum = sum(total)
+        
+        if self._number_items > 10:
+            final_sum = final_sum * 0.9 
+        return final_sum
 
     def get_total_with_tax(self):
         return self.get_total_price() + self.get_total_tax()
@@ -67,8 +79,7 @@ class OnlineSalesRegisterCollector:
 
         for item in self._name_items:
             total.append(self._item_price[item])
-        
-        final_sum = sum(total)
+            final_sum = sum(total)
         
         if self._number_items > 10: 
             return final_sum * 0.9
@@ -83,9 +94,8 @@ class OnlineSalesRegisterCollector:
             if item in self._tax_rate and self._tax_rate[item] == 20:
                 twenty_percent_tax.append(item)
                 total.append(self._item_price[item])
-
-        final_sum = sum(total)
-        if self._number_items > 10:
+                final_sum = sum(total)
+            if self._number_items > 10:
             final_sum = final_sum * 0.9
 
         return final_sum * 0.2
@@ -96,12 +106,11 @@ class OnlineSalesRegisterCollector:
 
         for item in self._name_items:
             if item in self._tax_rate and self._tax_rate[item] == 10:
-                ten_percent_tax.append(item)
-                total.append(self._item_price[item])
-
-        final_sum = sum(total)
-        if self._number_items > 10:
-            final_sum = final_sum * 0.9
+              ten_percent_tax.append(item)
+              total.append(self._item_price[item])
+              final_sum = sum(total)
+            if self._number_items > 10:
+              final_sum = final_sum * 0.9
 
         return final_sum * 0.2
 
@@ -109,12 +118,12 @@ class OnlineSalesRegisterCollector:
         total = self.twenty_percent_tax_calculation() + self.ten_percent_tax_calculation()
         return total
 
-        @staticmethod
+    @staticmethod
     def get_telephone_number(telephone_number):
         if not str(telephone_number).isdigit():
-            raise ValueError('Необходимо ввести цифры')
+          raise ValueError('Необходимо ввести цифры')
         
         if len(str(telephone_number)) > 10:
-            raise ValueError('Необходимо ввести 10 цифр после "+7"')
+          raise ValueError('Необходимо ввести 10 цифр после "+7"')
             
         return f'+7{telephone_number}'
